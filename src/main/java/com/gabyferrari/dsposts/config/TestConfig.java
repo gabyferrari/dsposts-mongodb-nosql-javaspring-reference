@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.gabyferrari.dsposts.models.entities.User;
+import com.gabyferrari.dsposts.repositories.PostRepository;
 import com.gabyferrari.dsposts.repositories.UserRepository;
 
 import jakarta.annotation.PostConstruct;
@@ -16,15 +17,21 @@ import jakarta.annotation.PostConstruct;
 public class TestConfig {
 	
 	@Autowired
-	private UserRepository repository;
+	private UserRepository userRepository;
+	
+	@Autowired
+	private PostRepository postRepository;
 	
 	@PostConstruct
 	public void init() {
-		repository.deleteAll();
+		userRepository.deleteAll();
+		postRepository.deleteAll();
+		
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
-		repository.saveAll(Arrays.asList(maria, alex, bob));
+		
+		userRepository.saveAll(Arrays.asList(maria, alex, bob));
 	}
 
 }
