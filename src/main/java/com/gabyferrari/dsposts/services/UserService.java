@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gabyferrari.dsposts.models.dto.PostDTO;
 import com.gabyferrari.dsposts.models.dto.UserDTO;
 import com.gabyferrari.dsposts.models.entities.User;
 import com.gabyferrari.dsposts.repositories.UserRepository;
@@ -46,6 +47,11 @@ public class UserService {
 		getEntityById(id);
 		repository.deleteById(id);
 	}
+	
+	public List<PostDTO> getUserPosts(String id) {
+		User user = getEntityById(id);
+		return user.getPosts().stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+	}
 
 	private void copyDtoToEntity(UserDTO dto, User entity) {
 		entity.setName(dto.getName());
@@ -57,5 +63,5 @@ public class UserService {
 		Optional<User> result = repository.findById(id);
 		return result.orElseThrow(() -> new ResourceNotFoundException("Objeto não encontrado"));
 	}
-	
+
 }
